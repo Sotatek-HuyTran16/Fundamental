@@ -200,3 +200,23 @@ systemctl restart mysqld.service
 
 ## 6. Xác nhận
 
+Để đơn giản hóa trouble shooting, thực hiện 1 số bước trên MySQL server trước khi cấu hình local client sử dụng mã hóa TLS
+
+Xác nhận MySQL đã enable mã hóa TLS
+
+```bash
+mysql -u root -p -h <MySQL_server_hostname> -e "SHOW session status LIKE 'Ssl_cipher';"
+```
+
+Nếu bạn cấu hình MySQL chỉ hỗ trợ 1 số version TLS cố định
+
+```bash
+mysql -u root -p -e "SHOW GLOBAL VARIABLES LIKE 'tls_version';"
+```
+
+Xác minh server sử dụng chính xác CA cert, server cert và private key
+
+```bash
+mysql -u root -e "SHOW GLOBAL VARIABLES WHERE Variable_name REGEXP '^ssl_ca|^ssl_cert|^ssl_key';"
+```
+
